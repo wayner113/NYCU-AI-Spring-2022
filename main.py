@@ -38,9 +38,9 @@ class Train_Model(nn.Module):
 
     def forward(self, x):
         return self.backbone(x)
-        
+
 test_data = pd.DataFrame(data={"image_id": os.listdir(TEST_FOLDER), "hotel_id": ""}).sort_values(by="image_id")
-id_code = pd.read_csv('./training/id_code mapping.csv')
+id_code = pd.read_csv('./training_result/id_code mapping.csv')
 id_code_map = id_code.set_index('hotel_id_code').to_dict()["hotel_id"]
 
 def img_process(image_path):
@@ -76,7 +76,7 @@ def get_model(backbone_name, checkpoint_path):
 base_transform = A.Compose([A.ToFloat(),APT.transforms.ToTensorV2(),])
 test_dataset = Image_Dataset(test_data, base_transform, folder=TEST_FOLDER)
 test_loader = DataLoader(test_dataset, num_workers=0, batch_size=64, shuffle=False)
-model = get_model("efficientnet_b0", "./training/checkpoint.pt")
+model = get_model("efficientnet_b0", "./training_result/checkpoint.pt")
 preds = predict(test_loader, model)
 #transform the format of prediction into string 
 preds = [[id_code_map[code] for code in classes] for classes in preds]
