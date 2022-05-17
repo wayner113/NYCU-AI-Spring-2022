@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 INPUT_FOLDER = "./training_input/"
 IMAGE_FOLDER = INPUT_FOLDER + "images/"
-OUTPUT_FOLDER = ""
+OUTPUT_FOLDER = "./training_result"
 
 class Train_Dataset:
     def __init__(self, data, transform=None, path="train_images/"):
